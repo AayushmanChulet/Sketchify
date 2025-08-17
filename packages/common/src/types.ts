@@ -13,5 +13,5 @@ export const createUser = z.object({
 })
 
 export const room = z.object({
-    name : z.string(),
+    slug : z.string()
 })

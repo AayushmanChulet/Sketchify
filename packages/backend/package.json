@@ -9,11 +9,10 @@
   "exports": {
     "./config" : "./src/config.ts"
   },
-  "dependencies": {
+  "devDependencies": {
     "@repo/typescript-config" : "workspace:*"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "type": "commonjs"
+  "license": "ISC"
 }
