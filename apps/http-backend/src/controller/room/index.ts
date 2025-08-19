@@ -110,7 +110,7 @@ export const getChats = async (req : AuthRequest, res :Response) => {
 
         res.status(200).json({
             status : "success",
-            roomCode : chats,
+            messages : chats,
             message:"Chats generated"
         })
         

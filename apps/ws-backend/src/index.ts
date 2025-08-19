@@ -45,6 +45,7 @@ wss.on("connection", (ws: WebSocket, request) => {
   const token = queryParams.get("Authorization") || "";
 
   const user = validUser(token);
+  console.log(user);
 
   if (user == null) {
     ws.close();
@@ -80,6 +81,7 @@ wss.on("connection", (ws: WebSocket, request) => {
     if (parsedData.type == "chat") {
       const roomId = parsedData.roomId;
       const message = parsedData.message;
+      console.log(user);
 
       await client.chat.create({
         data: {
