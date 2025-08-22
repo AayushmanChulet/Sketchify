@@ -1,4 +1,4 @@
-import RoomCanvas from "@/components/canvas/RoomCanvas";
+import RoomCanvas from "@/components/pages/canvas/RoomCanvas";
 
 export default async function canvasPage({params} : {params : {
     slug : string

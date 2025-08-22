@@ -1,7 +1,7 @@
 import { DrawingElement, Game } from "@/lib/game/game";
 import { initDraw } from "@/utils";
 import { useEffect, useRef, useState } from "react";
-import IconButton from "../ui/IconButton";
+import IconButton from "../../ui/IconButton";
 import { Circle, Minus, MoveRight, RectangleHorizontalIcon } from "lucide-react";
 
 export default function Canvas({

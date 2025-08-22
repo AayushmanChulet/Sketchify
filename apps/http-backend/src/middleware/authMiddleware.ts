@@ -7,7 +7,9 @@ import { JWT_SECRET } from "@repo/backend/config"
 
 export const authMiddleware = async ( req : AuthRequest, res : Response, next : NextFunction ) => {
 
-    const  token = req.headers["authorization"] ?? ""  ;
+    const  authHeader = req.headers["authorization"] ?? ""  ;
+
+    const token = authHeader.split(" ")[1];
 
     if(!token){
         return res.json(402).json({

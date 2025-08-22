@@ -50,7 +50,7 @@ export default function Signup() {
             <LabelledInput label="Last name" inputPlaceholder="Doe" value={lastname} onChange={(e) => setLastname(e.target.value)}/>
             <LabelledInput label="Email address" inputPlaceholder="johndoe@gmail.com" value={email} onChange={(e) => setEmail(e.target.value)}/>
             <LabelledInput label="Password" inputType="password" inputPlaceholder="****" value={password} onChange={(e) => setPassword(e.target.value)}/>
-            <Button>Submit</Button>
+            <Button onClick={handleSignup} >Submit</Button>
           </div>
           <div>
 ----- or -----

@@ -16,5 +16,8 @@
   "packageManager": "pnpm@9.0.0",
   "engines": {
     "node": ">=18"
+  },
+  "dependencies": {
+    "@tabler/icons-react": "^3.34.1"
   }
 }

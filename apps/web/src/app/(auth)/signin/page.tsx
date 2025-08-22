@@ -44,7 +44,7 @@ export default function SigninPage() {
           <div className="w-full flex flex-col items-center justify-center gap-2">
             <LabelledInput label="Email address" inputPlaceholder="johndoe@gmail.com" value={email} onChange={(e) => setEmail(e.target.value)}/>
             <LabelledInput label="Password" inputType="password" inputPlaceholder="****" value={password} onChange={(e) => setPassword(e.target.value)}/>
-            <Button>Submit</Button>
+            <Button onClick={handleSignin}>Submit</Button>
           </div>
           <div>
 ----- or -----
