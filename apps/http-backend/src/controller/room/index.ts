@@ -122,3 +122,34 @@ export const getChats = async (req : AuthRequest, res :Response) => {
         })
     }
 }
+
+export const getAllCanvas = async (req : AuthRequest , res : Response ) => {
+    const user = req.token;
+
+    if(!user){
+        return res.status(400).json({
+            status :"failed",
+            message : "auth token not found"
+        })
+    }
+
+    const rooms = await client.room.findMany({
+      where: {
+        adminId: user
+      },
+      select: {
+        id: true,
+        slug: true,
+        createdAt: true
+      },
+      orderBy: {
+        createdAt: 'desc'
+      }
+    });
+
+    console.log(rooms);
+    res.status(200).json({
+        status:"success",
+        rooms: rooms
+    })
+}

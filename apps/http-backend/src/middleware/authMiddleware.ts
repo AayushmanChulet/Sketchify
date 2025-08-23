@@ -12,7 +12,7 @@ export const authMiddleware = async ( req : AuthRequest, res : Response, next : 
     const token = authHeader.split(" ")[1];
 
     if(!token){
-        return res.json(402).json({
+        return res.status(402).json({
             status : "failed",
             message: "Invalid request"
         })
