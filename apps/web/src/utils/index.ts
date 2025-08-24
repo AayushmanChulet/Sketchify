@@ -30,7 +30,7 @@ export async function initDraw(
 	type : string
 ) {
   const ctx = canvas.getContext("2d");
-  let prevShapes: Shape[] = await getExistingShapes(RoomID);
+  let prevShapes: Shape[] = await getExistingShapes(RoomID, "test_token_here!!!");
 
   if (!ctx) return;
 
@@ -115,10 +115,10 @@ export function clearCanvas(
   });
 }
 
-export async function getExistingShapes(roomId: string) {
+export async function getExistingShapes(roomId: string, authToken:string) {
   const res = await Axios.get(`${HTTP_BACKEND_URL}/api/v1/app/get-chats/${roomId}`, {
 		headers : {
-			"authorization" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTYxODg3MzEsImRhdGEiOiI4OTQ5MDk0MS1jY2E5LTQ4NmYtOWYxZi01YjgzNDFiMDkwY2QiLCJpYXQiOjE3NTU1ODM5MzF9.hmuruvzZhr6EhIe6MbzprMcxD6TsoWlqbvQTeSNR3kU"
+			"authorization" : authToken
 		}
 	});
   const messages = res.data.messages;

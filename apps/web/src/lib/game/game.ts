@@ -42,7 +42,7 @@ export class Game {
   private startX: number = 0;
   private startY: number = 0;
 
-  constructor(canvas: HTMLCanvasElement, roomId: string, socket: WebSocket) {
+  constructor(canvas: HTMLCanvasElement, roomId: string, socket: WebSocket, authToken : string) {
     this.canvas = canvas;
     this.roomId = roomId;
     this.socket = socket;
@@ -50,7 +50,7 @@ export class Game {
     this.prevShapes = [];
     this.ctx = this.canvas.getContext("2d")!;
     this.clicked = false;
-    this.initDraw();
+    this.initDraw(authToken);
     this.initHandle();
     this.handleEvent();
   }
@@ -171,8 +171,8 @@ export class Game {
     }
   };
 
-  async initDraw() {
-    this.prevShapes = await getExistingShapes(this.roomId);
+  async initDraw(authToken : string) {
+    this.prevShapes = await getExistingShapes(this.roomId, authToken);
     this.clearCanvas();
   }
 

@@ -21,7 +21,7 @@ export default function Canvas({
 
   useEffect(() => {
     if (canvasRef.current) {
-      const g = new Game(canvasRef.current, roomId, socket);
+      const g = new Game(canvasRef.current, roomId, socket, localStorage.getItem("authorization") || "");
       setGame(g);
       return () => {
         g.destroy();

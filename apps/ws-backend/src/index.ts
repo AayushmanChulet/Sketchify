@@ -83,13 +83,19 @@ wss.on("connection", (ws: WebSocket, request) => {
       const message = parsedData.message;
       console.log(user);
 
-      await client.chat.create({
-        data: {
-          message,
-          userId: user,
-          roomId,
-        },
-      });
+      try{
+          await client.chat.create({
+            data: {
+              message,
+              userId: user,
+              roomId,
+            },
+          });
+      }catch(err){
+        console.log(err);
+      }
+
+      
 
       users.forEach((u) => {
       if (u.rooms.includes(roomId)) {

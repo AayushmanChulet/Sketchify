@@ -5,6 +5,7 @@ import LabelledInput from "@/components/ui/labelledInput";
 import { HTTP_BACKEND_URL } from "@repo/config/config";
 import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface SigninRequest {
@@ -16,9 +17,11 @@ export default function SigninPage() {
 	const  [email, setEmail] = useState("");
 	const  [password, setPassword] = useState("");
 
+  const router = useRouter()
+
   const handleSignin = async ( ) => {
-      try{const req = await axios.post<SigninRequest>(`${HTTP_BACKEND_URL}/api/v1/auth/signup`, {
-          email,
+      try{const req = await axios.post<SigninRequest>(`${HTTP_BACKEND_URL}/api/v1/auth/signin`, {
+          identifier : email,
           password,
         });
 
@@ -27,6 +30,7 @@ export default function SigninPage() {
         }
 
         localStorage.setItem("authorization", `Bearer ${req.data.token}`);
+        router.push("/dashboard")
 
         }catch(err){
           console.error(err)
