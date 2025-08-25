@@ -5,6 +5,7 @@ import NavBar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
 import ModalProvider from "@/context/modalProvider";
 import Middleware from "@/components/middleware/middleware";
+import { headers } from "next/headers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

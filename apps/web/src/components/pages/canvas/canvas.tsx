@@ -30,7 +30,7 @@ export default function Canvas({
   }, [canvasRef]);
 
   return (
-    <div className="h-dvh w-dvw overflow-hidden">
+    <div className="h-full w-full overflow-hidden">
       <canvas
         ref={canvasRef}
         width={window.innerWidth}
