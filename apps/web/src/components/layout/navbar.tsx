@@ -7,6 +7,7 @@ import modalContext from "@/context/modalContext";
 import UseDebounce from "@/hooks/useDebounce";
 import { HTTP_BACKEND_URL } from "@repo/config/config";
 import axios from "axios";
+import Link from "next/link";
 
 interface FindRooms{
   status : string,
@@ -58,7 +59,7 @@ export default function NavBar() {
     console.log(path)
   return (
     path == "/" || path == "/signin" || path == "signup" ? <nav className="w-3/5 fixed top-5 left-1/2 -translate-x-1/2  z-50  bg-neutral-400/40 dark:bg-neutral-800/40 backdrop-blur-md shadow-md flex items-center justify-between px-8 py-4 rounded-2xl  gap-14">
-      <span className="font-gelpen text-2xl font-bold">Sketcify</span>
+      <Link className="font-gelpen text-2xl font-bold" href={"/"}>Sketcify</Link>
       <span className="flex gap-6 items-center text-sm font-medium">
         <span className="cursor-pointer hover:text-neutral-700 dark:hover:text-neutral-300 transition">
           How it works
@@ -74,7 +75,7 @@ export default function NavBar() {
         <Button className="rounded-xl" onClick={() => router.push("/signin")}>Login</Button>
       </span>
     </nav> : <nav className="w-3/5 fixed top-5 left-1/2 -translate-x-1/2  z-50  bg-neutral-400/40 dark:bg-neutral-800/40 backdrop-blur-md shadow-md flex items-center justify-between px-8 py-4 rounded-2xl  gap-14">
-      <span className="font-gelpen text-2xl font-bold">Sketcify</span>
+      <Link className="font-gelpen text-2xl font-bold" href={"/"}>Sketcify</Link>
       <div className="relative flex-1 max-w-md">
         <Input
           placeholder="Search"

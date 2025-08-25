@@ -16,7 +16,7 @@ export default function AllCanvas( props : Props ) {
       <TableHeader>
         <TableRow>
           <TableHead className="w-[100px]">sno.</TableHead>
-          <TableHead>Name</TableHead>
+          <TableHead className="w-4/6">Name</TableHead>
           <TableHead>Created at</TableHead>
           <TableHead className="text-right">Join canvas</TableHead>
         </TableRow>

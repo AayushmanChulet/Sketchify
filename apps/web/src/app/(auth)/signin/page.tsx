@@ -38,13 +38,13 @@ export default function SigninPage() {
   }
 
 
-  return (<div className="w-2/4 bg-[#fef0c8] text-black py-16 px-16 flex flex-col gap-8 items-center justify-center rounded-3xl font-ArchitectsDaughter">
+  return (<div className="w-2/4 bg-[#222229] text-[#cfd4db] py-16 px-16 flex flex-col gap-8 items-center justify-center rounded-3xl font-ArchitectsDaughter">
     <div className="flex flex-col gap-2">
-        <div className="text-center text-2xl font-sans">Hi there!</div>
-          <div className="text-[14px]">Enter your email to sign in to your account</div>
+        <div className="text-center text-3xl font-sans">Hi there!</div>
+          <div className="text-[16px]">Enter your email to sign in to your account</div>
     </div>
           
-        <div className="w-full flex flex-col items-center justify-center gap-4" >
+        <div className="w-full flex flex-col items-center justify-center gap-4 text-lg" >
           <div className="w-full flex flex-col items-center justify-center gap-2">
             <LabelledInput label="Email address" inputPlaceholder="johndoe@gmail.com" value={email} onChange={(e) => setEmail(e.target.value)}/>
             <LabelledInput label="Password" inputType="password" inputPlaceholder="****" value={password} onChange={(e) => setPassword(e.target.value)}/>

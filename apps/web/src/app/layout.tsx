@@ -4,6 +4,7 @@ import "./globals.css";
 import NavBar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
 import ModalProvider from "@/context/modalProvider";
+import Middleware from "@/components/middleware/middleware";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,7 +33,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col items-center justify-start min-w-screen min-h-screen bg-black `}
       >
         <NavBar/>
-        {children}
+        <Middleware>
+          {children}
+        </Middleware>
         <Footer/>
       </body>
     </html>

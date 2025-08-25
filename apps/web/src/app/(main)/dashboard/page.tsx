@@ -147,7 +147,6 @@ export default function Dashboard(){
             className="bg-white rounded-lg shadow-2xl w-full max-w-md transform transition-all duration-200 scale-100"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Modal Header */}
             <div className="flex justify-between items-center p-6 border-b border-gray-200">
               <h3 className="text-xl font-semibold text-gray-800">
                 Create New Canvas
