@@ -29,7 +29,7 @@ type Shape =
       endY: number;
   }
 
-export type DrawingElement = "rect" | "circle" | "line" | "arrow" | "text";
+export type DrawingElement = "rect" | "circle" | "line" | "arrow" | "text" | "erase";
 
 export class Game {
   private canvas: HTMLCanvasElement;
@@ -69,6 +69,10 @@ export class Game {
     this.clicked = true;
     this.startX = e.clientX;
     this.startY = e.clientY;
+    if (this.drawingELement === "erase") {
+      this.handleErase(e.clientX, e.clientY);
+      return;
+    }
   };
 
   private mouseUp = (e: any) => {
@@ -130,6 +134,15 @@ export class Game {
 
   private mouseMove = (e: any) => {
     if (this.clicked) {
+      if (this.drawingELement === "erase") {
+      // Show visual feedback for erase mode
+      this.clearCanvas();
+      const shapeIndex = this.findShapeAtPoint(e.clientX, e.clientY);
+      if (shapeIndex !== -1) {
+        this.highlightShape(this.prevShapes[shapeIndex]);
+      }
+      return;
+    }
       this.clearCanvas();
       const width = e.clientX - this.startX;
       const height = e.clientY - this.startY;
@@ -179,9 +192,14 @@ export class Game {
   initHandle = () => {
     this.socket.onmessage = (event) => {
       const message = JSON.parse(event.data);
+      
       if (message.type == "chat") {
         const shape = JSON.parse(message.message);
         this.prevShapes.push(shape.shape);
+        this.clearCanvas();
+      } else if (message.type == "erase") {
+        const eraseData = JSON.parse(message.message);
+        this.prevShapes.splice(eraseData.shapeIndex, 1);
         this.clearCanvas();
       }
     };
@@ -217,7 +235,7 @@ export class Game {
         } else if (shape.type === "arrow"){
             const dx = shape.endX - shape.startX;
             const dy =shape.endY - shape.startY;
-            const headlen = Math.sqrt( dx * dx + dy * dy ) * 0.3; // length of head in pixels
+            const headlen = Math.sqrt( dx * dx + dy * dy ) * 0.3;
             const angle = Math.atan2( dy, dx );
             this.ctx.beginPath();
             this.ctx.moveTo( shape.startX, shape.startY );
@@ -231,4 +249,142 @@ export class Game {
         }
     });
   };
+
+  private handleErase = (x: number, y: number) => {
+    const shapeToRemove = this.findShapeAtPoint(x, y);
+    if (shapeToRemove !== -1) {
+      // Remove the shape from local array
+      this.prevShapes.splice(shapeToRemove, 1);
+      
+      // Send erase command to other clients
+      this.socket.send(
+        JSON.stringify({
+          type: "erase",
+          message: JSON.stringify({
+            shapeIndex: shapeToRemove,
+          }),
+          roomId: Number(this.roomId),
+        })
+      );
+      
+      this.clearCanvas();
+    }
+  };
+  private findShapeAtPoint = (x: number, y: number): number => {
+    // Check shapes in reverse order (top to bottom)
+    for (let i = this.prevShapes.length - 1; i >= 0; i--) {
+      const shape = this.prevShapes[i];
+      
+      if (this.isPointInShape(x, y, shape)) {
+        return i;
+      }
+    }
+    return -1;
+  };
+
+  private isPointInShape = (x: number, y: number, shape: Shape): boolean => {
+    switch (shape.type) {
+      case "rect":
+        return x >= shape.x && 
+               x <= shape.x + shape.width && 
+               y >= shape.y && 
+               y <= shape.y + shape.height;
+      
+      case "circle":
+        const distance = Math.sqrt(
+          Math.pow(x - shape.centerX, 2) + Math.pow(y - shape.centerY, 2)
+        );
+        return distance <= Math.abs(shape.radius);
+      
+      case "line":
+      case "arrow":
+        // Check if point is near the line (within 10 pixels)
+        const lineDistance = this.distanceToLine(
+          x, y, 
+          shape.startX, shape.startY, 
+          shape.endX, shape.endY
+        );
+        return lineDistance <= 10;
+      
+      default:
+        return false;
+    }
+  };
+
+  private distanceToLine = (
+    px: number, py: number, 
+    x1: number, y1: number, 
+    x2: number, y2: number
+  ): number => {
+    const A = px - x1;
+    const B = py - y1;
+    const C = x2 - x1;
+    const D = y2 - y1;
+
+    const dot = A * C + B * D;
+    const lenSq = C * C + D * D;
+    
+    if (lenSq === 0) return Math.sqrt(A * A + B * B);
+    
+    let param = dot / lenSq;
+    
+    if (param < 0) {
+      return Math.sqrt(A * A + B * B);
+    } else if (param > 1) {
+      const E = px - x2;
+      const F = py - y2;
+      return Math.sqrt(E * E + F * F);
+    } else {
+      const closestX = x1 + param * C;
+      const closestY = y1 + param * D;
+      const dx = px - closestX;
+      const dy = py - closestY;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+  };
+  private highlightShape = (shape: Shape) => {
+    this.ctx.save();
+    this.ctx.strokeStyle = "rgba(255, 0, 0, 0.8)";
+    this.ctx.lineWidth = 3;
+    
+    switch (shape.type) {
+      case "rect":
+        this.ctx.strokeRect(shape.x, shape.y, shape.width, shape.height);
+        break;
+      case "circle":
+        this.ctx.beginPath();
+        this.ctx.arc(shape.centerX, shape.centerY, Math.abs(shape.radius), 0, Math.PI * 2);
+        this.ctx.stroke();
+        this.ctx.closePath();
+        break;
+      case "line":
+        this.ctx.beginPath();
+        this.ctx.moveTo(shape.startX, shape.startY);
+        this.ctx.lineTo(shape.endX, shape.endY);
+        this.ctx.stroke();
+        this.ctx.closePath();
+        break;
+      case "arrow":
+        const dx = shape.endX - shape.startX;
+        const dy = shape.endY - shape.startY;
+        const headlen = Math.sqrt(dx * dx + dy * dy) * 0.3;
+        const angle = Math.atan2(dy, dx);
+        
+        this.ctx.beginPath();
+        this.ctx.moveTo(shape.startX, shape.startY);
+        this.ctx.lineTo(shape.endX, shape.endY);
+        this.ctx.stroke();
+        
+        this.ctx.beginPath();
+        this.ctx.moveTo(shape.endX - headlen * Math.cos(angle - Math.PI / 6), shape.endY - headlen * Math.sin(angle - Math.PI / 6));
+        this.ctx.lineTo(shape.endX, shape.endY);
+        this.ctx.lineTo(shape.endX - headlen * Math.cos(angle + Math.PI / 6), shape.endY - headlen * Math.sin(angle + Math.PI / 6));
+        this.ctx.stroke();
+        break;
+    }
+    
+    this.ctx.restore();
+  };
 }
+
+

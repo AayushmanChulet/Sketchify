@@ -39,13 +39,9 @@ export default function Canvas({
       />
       <div>
         <div
-          style={{
-            position: "fixed",
-            top: 10,
-            left: 10,
-          }}
+          className="fixed bottom-5 left-1/2 -translate-x-1/2  "
         >
-          <div className="flex gap-4 z-50">
+          <div className="flex  border rounded z-50">
             <IconButton
               onClick={() => {
                 setSelectedTool("line");
@@ -60,7 +56,7 @@ export default function Canvas({
               }}
               isActivated={selectedTool === "rect"}
               icon={<RectangleHorizontalIcon />}
-            ></IconButton>
+            />
 
             <IconButton
               onClick={() => {
@@ -68,7 +64,7 @@ export default function Canvas({
               }}
               isActivated={selectedTool === "circle"}
               icon={<Circle />}
-            ></IconButton>
+            />
 
             <IconButton
               onClick={() => {
@@ -76,7 +72,7 @@ export default function Canvas({
               }}
               isActivated={selectedTool === "arrow"}
               icon={<MoveRight />}
-            ></IconButton>
+            />
           </div>
         </div>
       </div>

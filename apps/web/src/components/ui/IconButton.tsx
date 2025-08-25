@@ -10,7 +10,7 @@ export default function IconButton(props: Props) {
   return (
     <div
       onClick={props.onClick}
-      className={`p-4 m-2 cursor-pointer rounded-full border
+      className={`p-4 rounded cursor-pointer border
         ${props.isActivated ? "bg-neutral-500" : "bg-neutral-700"}
         text-neutral-200 hover:bg-neutral-600`}
     >
