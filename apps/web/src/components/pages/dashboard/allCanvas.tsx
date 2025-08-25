@@ -12,7 +12,6 @@ interface Props{
 
 export default function AllCanvas( props : Props ) {
     return <Table className="w-full h-full">
-      <TableCaption>All canvas'.</TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead className="w-[100px]">sno.</TableHead>

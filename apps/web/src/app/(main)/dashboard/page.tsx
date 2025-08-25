@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import modalContext from "@/context/modalContext";
 import { redirect } from "next/dist/server/api-utils";
 import { useRouter } from "next/navigation";
+import { Skeleton } from "@/components/ui/skeleton";
+import AllCanvasSkeleton from "@/components/pages/dashboard/tableSkeleton";
 
 interface CanvasResponse {
     rooms :  {
@@ -33,13 +35,15 @@ export default function Dashboard(){
     const [token, setToken] = useState<string | null>(null);
     const [canvas , setCanvas] = useState<CanvasResponse | null>(null); 
     const [recentCanvas , setRecentCanvas] = useState<CanvasResponse | null>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     const router = useRouter()
 
     useEffect(() => {
         const fetchedTokem = localStorage.getItem("authorization");
         setToken(fetchedTokem);
-        getCanvas()
+        getCanvas();
+        setIsLoading(false);
     }, [token])
 
     useEffect(() => {
@@ -121,7 +125,21 @@ export default function Dashboard(){
                 Recent Canvas: 
             </div>
             <div className="flex gap-2">
-                {recentCanvas!= null && recentCanvas.rooms.map((canvas, index) => {
+              
+                {recentCanvas == null ? <>
+                <div className="w-96 h-48 bg-neutral-800 text-neutral-200 rounded-2xl flex flex-col justify-between items-start p-7"> 
+                  <Skeleton className="h-6 w-64 rounded-md" />
+                  <Skeleton className="h-5 w-32 rounded-md" />
+                </div> 
+                <div className="w-96 h-48 bg-neutral-800 text-neutral-200 rounded-2xl flex flex-col justify-between items-start p-7"> 
+                  <Skeleton className="h-6 w-64 rounded-md" />
+                  <Skeleton className="h-5 w-32 rounded-md" />
+                </div> 
+                <div className="w-96 h-48 bg-neutral-800 text-neutral-200 rounded-2xl flex flex-col justify-between items-start p-7"> 
+                  <Skeleton className="h-6 w-64 rounded-md" />
+                  <Skeleton className="h-5 w-32 rounded-md" />
+                </div> 
+                </>: recentCanvas.rooms.map((canvas, index) => {
                     return <RecentCanvas createdAt={new Date(canvas.createdAt)} slug={canvas.slug}/>
                 })} 
             </div>
@@ -132,7 +150,7 @@ export default function Dashboard(){
                 All Canvas:
             </div>
             <div className="w-full overflow-x-auto">
-                {   canvas!= null &&
+                {   canvas == null ? <AllCanvasSkeleton /> : 
                 <AllCanvas data={canvas.rooms}/>
             }
             </div>
