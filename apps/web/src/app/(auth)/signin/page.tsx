@@ -7,6 +7,9 @@ import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { signinSchema } from "@repo/common/types"
+import { ZodError } from 'zod'
+import { ZodIssue } from "zod";
 
 interface SigninRequest {
   status : string,
@@ -14,17 +17,29 @@ interface SigninRequest {
 }
 
 export default function SigninPage() {
-	const  [email, setEmail] = useState("");
-	const  [password, setPassword] = useState("");
+	const [email, setEmail] = useState<string>("");
+	const [password, setPassword] = useState<string>("");
+  const [errors, setErrors] = useState<{ identifier?: string; password?: string }>({});
+
 
   const router = useRouter()
 
   const handleSignin = async ( ) => {
+    const result = signinSchema.safeParse({ identifier: email, password });
+    if (!result.success) {
+      const fieldErrors: Record<string, string> = {};
+      console.log(result.error);
+      (result.error as ZodError).issues.forEach((issue) => {
+    if (issue.path[0]) fieldErrors[issue.path[0].toString()] = issue.message;
+  });
+      setErrors(fieldErrors);
+      return; 
+    }
+
       try{const req = await axios.post<SigninRequest>(`${HTTP_BACKEND_URL}/api/v1/auth/signin`, {
           identifier : email,
           password,
         });
-
         if(req.status != 200){
           throw new Error("Something went wrong")
         }
@@ -47,7 +62,9 @@ export default function SigninPage() {
         <div className="w-full flex flex-col items-center justify-center gap-4 text-lg" >
           <div className="w-full flex flex-col items-center justify-center gap-2">
             <LabelledInput label="Email address" inputPlaceholder="johndoe@gmail.com" value={email} onChange={(e) => setEmail(e.target.value)}/>
+              {errors.identifier && <p className="text-red-500 text-sm">{errors.identifier}</p>}
             <LabelledInput label="Password" inputType="password" inputPlaceholder="****" value={password} onChange={(e) => setPassword(e.target.value)}/>
+               {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
             <Button onClick={handleSignin}>Submit</Button>
           </div>
           <div>

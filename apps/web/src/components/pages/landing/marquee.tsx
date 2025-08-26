@@ -82,7 +82,7 @@ const ReviewCard = ({
 
 export function MarqueeComponent() {
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center gap-7 mt-16">
+    <div className="w-full h-full flex flex-col items-center justify-center gap-20 mt-32">
     <div className="flex flex-col justify-center items-center gap-4 text-white">
         <div className="text-7xl">Everything You Need to Create</div>
         <div className="2xl">Powerful features designed to make collaboration effortless and creativity limitless.</div>

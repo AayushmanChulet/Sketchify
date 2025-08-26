@@ -10,7 +10,7 @@ export default function Footer() {
 
   return (
     (!isCanvas && <footer className={cn(" w-full text-gray-400 px-10 md:px-28 py-10 flex flex-row justify-between items-start md:items-center gap-8 mt-16")}>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 h-full justify-center">
         <h2 className="text-3xl font-semibold">Sketchify</h2>
         <div className="flex gap-6 text-sm text-gray-400">
           <a href="#" className="hover:underline">Privacy Policy</a>

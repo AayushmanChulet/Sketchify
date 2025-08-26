@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import 'lenis/dist/lenis.css'
 import NavBar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
 import ModalProvider from "@/context/modalProvider";
 import Middleware from "@/components/middleware/middleware";
-import { headers } from "next/headers";
+import ScrollProvider from "@/components/layout/scrollProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,17 +30,19 @@ export default function RootLayout({
 }>) {
   return (
     <ModalProvider>
-    <html lang="en" className="dark">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col items-center justify-start min-w-screen min-h-screen bg-black `}
-      >
-        <NavBar/>
-        <Middleware>
-          {children}
-        </Middleware>
-        <Footer/>
-      </body>
-    </html>
+      <ScrollProvider>
+        <html lang="en" className="dark">
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col items-center justify-start min-w-screen min-h-screen bg-black `}
+          >
+            <NavBar/>
+            <Middleware>
+              {children}
+            </Middleware>
+            <Footer/>
+          </body>
+        </html>
+    </ScrollProvider>
     </ModalProvider>
   );
 }
