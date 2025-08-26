@@ -7,7 +7,7 @@ import Fast from "@/static/fast.svg";
 import FinancialInsights from "@/static/financial_insights.svg";
 
 export default function LandingFeatures() {
-  return (<div className="flex flex-col gap-20 items-center justify-center mt-32">
+  return (<div className="flex flex-col gap-20 items-center justify-center mt-32" id="Features">
     <div className="flex flex-col justify-center items-center gap-4 text-white">
         <div className="text-7xl">Everything You Need to Create</div>
         <div className="2xl">Powerful features designed to make collaboration effortless and creativity limitless.</div>

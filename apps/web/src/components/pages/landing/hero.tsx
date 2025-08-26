@@ -12,7 +12,7 @@ import { AnimatedShinyText } from "@/components/magicui/animated-shiny-text";
 export default function Hero() {
 
   return (
-    <div className="relative flex h-[50rem] w-full items-center justify-center bg-white dark:bg-black">
+    <div className="relative flex h-[50rem] w-full items-center justify-center bg-white dark:bg-black" id="Home">
       <div
         className={cn(
           "absolute inset-0",

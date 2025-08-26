@@ -119,34 +119,28 @@ export default function Dashboard(){
     setRecentCanvas({rooms : recent});
     }
 
-    return <main className="h-full mt-40 flex flex-col items-center w-3/5 justify-center gap-14">
+    return <main className="min-h-screen mt-20 sm:mt-40 flex flex-col items-center w-full sm:w-4/5 lg:w-3/5 px-4 gap-10 sm:gap-14">
         <div className="flex flex-col justify-center items-start gap-3 w-full h-full">
-            <div className="text-3xl">
+            <div className="text-2xl sm:text-3xl">
                 Recent Canvas: 
             </div>
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-4 w-full">
               
                 {recentCanvas == null ? <>
-                <div className="w-96 h-48 bg-neutral-800 text-neutral-200 rounded-2xl flex flex-col justify-between items-start p-7"> 
-                  <Skeleton className="h-6 w-64 rounded-md" />
-                  <Skeleton className="h-5 w-32 rounded-md" />
-                </div> 
-                <div className="w-96 h-48 bg-neutral-800 text-neutral-200 rounded-2xl flex flex-col justify-between items-start p-7"> 
-                  <Skeleton className="h-6 w-64 rounded-md" />
-                  <Skeleton className="h-5 w-32 rounded-md" />
-                </div> 
-                <div className="w-96 h-48 bg-neutral-800 text-neutral-200 rounded-2xl flex flex-col justify-between items-start p-7"> 
-                  <Skeleton className="h-6 w-64 rounded-md" />
-                  <Skeleton className="h-5 w-32 rounded-md" />
-                </div> 
+                  {[...Array(3)].map((_, i) => (
+              <div className="flex-1 min-w-[280px] h-40 sm:h-48 bg-neutral-800 text-neutral-200 rounded-xl flex flex-col justify-between items-start p-5"> 
+                  <Skeleton className="h-6 w-40 sm:w-64 rounded-md" />
+                  <Skeleton className="h-5 w-24 sm:w-32 rounded-md" />
+                </div>
+            ))}
                 </>: recentCanvas.rooms.map((canvas, index) => {
                     return <RecentCanvas createdAt={new Date(canvas.createdAt)} slug={canvas.slug}/>
                 })} 
             </div>
         </div>
-        <div className=" mt-40 flex flex-col items-start justify-start gap-14 w-full overflow-y-visible">
+        <div className=" mt-20 sm:mt-40 flex flex-col items-start gap-10 sm:gap-14 w-full">
 
-            <div className="text-3xl">
+            <div className="text-2xl sm:text-3xl">
                 All Canvas:
             </div>
             <div className="w-full overflow-x-auto">

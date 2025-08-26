@@ -2,11 +2,12 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 export default function AllCanvasSkeleton(){
-    return <Table className="w-full h-full">
+    return<div className="w-full overflow-x-auto">
+      <Table className="min-w-[600px]">
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[100px]">sno.</TableHead>
-          <TableHead className="w-4/6">Name</TableHead>
+          <TableHead className="w-[60px]">sno.</TableHead>
+          <TableHead className="w-3/5">Name</TableHead>
           <TableHead>Created at</TableHead>
           <TableHead className="text-right">Join canvas</TableHead>
         </TableRow>
@@ -31,4 +32,5 @@ export default function AllCanvasSkeleton(){
           }
       </TableBody>
     </Table>
+    </div> 
 }

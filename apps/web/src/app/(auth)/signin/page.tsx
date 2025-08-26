@@ -53,7 +53,18 @@ export default function SigninPage() {
   }
 
 
-  return (<div className="w-2/4 bg-[#222229] text-[#cfd4db] py-16 px-16 flex flex-col gap-8 items-center justify-center rounded-3xl font-ArchitectsDaughter">
+  return (<div className="w-full max-w-md
+        bg-[#222229] 
+        text-[#cfd4db] 
+        py-8 px-6            
+        sm:py-12 sm:px-12    
+        md:py-16 md:px-16 
+        flex flex-col gap-6
+        items-center justify-center 
+        rounded-2xl sm:rounded-3xl  /* 🔹 Smaller radius on mobile */
+        font-ArchitectsDaughter
+        mx-auto my-8          /* 🔹 Center with margins */
+">
     <div className="flex flex-col gap-2">
         <div className="text-center text-3xl font-sans">Hi there!</div>
           <div className="text-[16px]">Enter your email to sign in to your account</div>
